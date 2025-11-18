@@ -4,7 +4,7 @@ public static class Endpoint
 {
     public static WebApplication MapGetIndexesByRangeEndpoint(this WebApplication app)
     {
-        app.MapGet("/indexes", async () =>
+        app.MapGet("/indexes", async ([AsParameters] GetIndexesByRangeRequest request) =>
         {
             await Task.Delay(2);
 
@@ -14,7 +14,12 @@ public static class Endpoint
                 new(DateOnly.Parse("2023-01-02"), 678.90m)
             ];
 
-            return Results.Ok(data);
+            GetIndexesByRangeResponse response = new(
+                Index: request.Index,
+                Data: data
+            );
+
+            return Results.Ok(response);
         })
         .WithTags("Indexes");
 
@@ -22,4 +27,8 @@ public static class Endpoint
     }
 }
 
+public record struct GetIndexesByRangeRequest(string Index, DateOnly From, DateOnly To);
+
 public record struct Index(DateOnly Date, decimal Value);
+
+public record struct GetIndexesByRangeResponse(string Index, IEnumerable<Index> Data);
