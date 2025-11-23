@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: src/Iris.WebApi/Dockerfile
+    environment:
+      - ConnectionStrings__Redis=redis:6379
     ports:
       - 5164:5164
   redis:

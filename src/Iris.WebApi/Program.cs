@@ -1,13 +1,7 @@
-using StackExchange.Redis;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(s =>
-{
-    string connection = builder.Configuration.GetConnectionString("redis")!;
-    return ConnectionMultiplexer.Connect(connection);
-});
 builder.Services.AddOpenApi();
+builder.Services.AddRedis(builder.Configuration);
 
 var app = builder.Build();
 
