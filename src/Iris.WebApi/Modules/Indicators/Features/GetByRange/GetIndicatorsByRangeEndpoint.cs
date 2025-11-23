@@ -1,6 +1,8 @@
-namespace Iris.WebApi.Modules.Indicators.GetByRange;
+using Iris.WebApi.Modules.Indicators.Models;
 
-public static class Endpoint
+namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
+
+public static class GetIndicatorsByRangeEndpoint
 {
     public static WebApplication MapGetIndicatorsByRangeEndpoint(this WebApplication app)
     {
@@ -8,14 +10,14 @@ public static class Endpoint
         {
             await Task.Delay(2);
 
-            IEnumerable<Index> data =
+            IEnumerable<Indicator> data =
             [
                 new(DateOnly.Parse("2023-01-01"), 123.45m),
                 new(DateOnly.Parse("2023-01-02"), 678.90m)
             ];
 
             GetIndicatorsByRangeResponse response = new(
-                Index: request.Index,
+                Code: request.Code,
                 Data: data
             );
 
@@ -26,9 +28,3 @@ public static class Endpoint
         return app;
     }
 }
-
-public record struct GetIndicatorsByRangeRequest(string Index, DateOnly From, DateOnly To);
-
-public record struct Index(DateOnly Date, decimal Value);
-
-public record struct GetIndicatorsByRangeResponse(string Index, IEnumerable<Index> Data);
