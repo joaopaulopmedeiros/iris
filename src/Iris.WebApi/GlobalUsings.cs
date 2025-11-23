@@ -1,3 +1,3 @@
-global using Iris.WebApi.Modules.Indexes.IoC;
+global using Iris.WebApi.Modules.Indicators.IoC;
 
 global using Scalar.AspNetCore;

@@ -10,7 +10,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.MapIndexesEndpoints();
+app.MapIndicatorsEndpoints();
 
 app.UseHttpsRedirection();
 
