@@ -1,0 +1,16 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  api:
+    image: iris-api
+    build:
+      context: .
+      dockerfile: src/Iris.WebApi/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5164:5164
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw

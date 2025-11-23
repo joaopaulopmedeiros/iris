@@ -1,0 +1,14 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  api:
+    image: iris-api
+    build:
+      context: .
+      dockerfile: src/Iris.WebApi/Dockerfile
+    ports:
+      - 5164:5164
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - 6379:6379
