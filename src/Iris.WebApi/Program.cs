@@ -39,3 +39,5 @@ app.MapIndicatorsEndpoints();
 app.UseHttpsRedirection();
 
 app.Run();
+
+public partial class Program { }
