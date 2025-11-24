@@ -2,7 +2,7 @@
 
 Get selic values within a given time range
 ```
-GET /v1/selic?startDate=2025-01-01&endDate=2025-10-01
+GET /v1/indicators?code=selic&from=2025-01-01&to=2025-10-01
 
 [
     {
@@ -14,16 +14,4 @@ GET /v1/selic?startDate=2025-01-01&endDate=2025-10-01
         "referenceDate": "2025-09-01"
     }    
 ]
-```
-
-Get selic stats within a given time range
-```
-GET /v1/selic/stats?startDate=2025-01-01&endDate=2025-10-01
-
-{
-  "avg": 8.25,
-  "min": 2.00,
-  "max": 13.75,
-  "stdDev": 3.12
-}
 ```

@@ -1,6 +1,5 @@
-using System.Text.Json;
-
 using Iris.WebApi.Modules.Indicators.Models;
+using Iris.WebApi.Shared.Infra.Redis.Extensions;
 
 using StackExchange.Redis;
 
@@ -14,26 +13,18 @@ public static class GetIndicatorsByRangeEndpoint
             [AsParameters] GetIndicatorsByRangeRequest request,
             IConnectionMultiplexer redis) =>
         {
-            IDatabase db = redis.GetDatabase();
+            string key = $"indicator:{request.Code.ToLower()}";
 
-            string key = $"indicator:{request.Code}";
-            long fromScore = long.Parse(request.From.ToString("yyyyMMdd"));
-            long toScore = long.Parse(request.To.ToString("yyyyMMdd"));
-
-            RedisValue[] entries = await db.SortedSetRangeByScoreAsync(key, fromScore, toScore);
+            RedisValue[] entries = await redis.GetDatabase()
+                .GetSortedSetRangeByScoreAsync(key, request.From, request.To);
 
             if (entries is null || entries.Length == 0) return Results.NoContent();
 
-            JsonSerializerOptions options = new()
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            IEnumerable<Indicator> indicators = entries.Select(e => JsonSerializer.Deserialize<Indicator>((string)e!, options));
+            IEnumerable<Indicator> data = entries.ToList<Indicator>();
 
             GetIndicatorsByRangeResponse response = new(
                 Code: request.Code,
-                Data: indicators
+                Data: data
             );
 
             return Results.Ok(response);
