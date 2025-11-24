@@ -15,7 +15,7 @@ export const options = {
 };
 
 export default function () {
-    const res = http.get('http://localhost:5164/indicators?Code=selic&From=2025-11-01&To=2025-11-24');
+    const res = http.get('http://localhost:3333/indicators?code=selic&from=2025-11-01&to=2025-11-24');
     check(res, { 'status was 200': (r) => r.status == 200 });
     sleep(1);
 }
