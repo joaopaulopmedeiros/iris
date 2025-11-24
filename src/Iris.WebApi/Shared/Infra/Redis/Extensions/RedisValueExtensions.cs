@@ -6,7 +6,7 @@ namespace Iris.WebApi.Shared.Infra.Redis.Extensions;
 
 public static class RedisValuesExtensions
 {
-    public static IEnumerable<T> ToList<T>(this RedisValue[] entries) where T : class
+    public static IEnumerable<T> ToList<T>(this RedisValue[] entries) where T : notnull
     {
         JsonSerializerOptions options = new()
         {
