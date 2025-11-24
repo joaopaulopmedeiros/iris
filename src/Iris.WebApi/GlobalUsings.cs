@@ -6,3 +6,6 @@ global using Iris.WebApi.Shared.Infra.Http.Clients.BCB.IoC;
 global using Iris.WebApi.Shared.Infra.Redis.IoC;
 
 global using Scalar.AspNetCore;
+
+global using System.Text.Json;
+global using System.Text.Json.Serialization;

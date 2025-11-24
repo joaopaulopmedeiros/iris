@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const target_vus = 1500;
+const target_vus = 2000;
 
 export const options = {
     thresholds: {
@@ -9,7 +9,7 @@ export const options = {
     },
     stages: [
         { duration: "30s", target: target_vus },
-        { duration: "60s", target: target_vus },
+        { duration: "30s", target: target_vus },
         { duration: "30s", target: 0 }
     ]
 };
