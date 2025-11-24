@@ -9,7 +9,9 @@ services:
       args:
         - configuration=Debug
       environment:
-        - ConnectionStrings__Redis=redis:6379        
+        - ConnectionStrings__Redis=redis:6379       
+        - HttpClients__BCB__BaseUrl=https://api.bcb.gov.br
+        - HttpClients__BCB__TimeoutInSeconds=5         
     ports:
       - 5164:5164
     environment:
