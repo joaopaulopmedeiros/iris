@@ -1,13 +1,13 @@
+using System.Globalization;
+using System.Net;
+using System.Net.Http.Json;
+
 using Iris.WebApi.Modules.Indicators.Features.GetByRange;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 using StackExchange.Redis;
-
-using System.Globalization;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace Iris.WebApi.FunctionalTests.Modues.Indicators.Features;
 
