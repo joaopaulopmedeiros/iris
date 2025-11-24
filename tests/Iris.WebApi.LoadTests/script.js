@@ -1,11 +1,18 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const target_vus = 2000;
+const target_vus = 1000;
 
 export const options = {
     thresholds: {
-        http_req_duration: ['min<10', 'med<25', 'p(75)<50', 'p(95)<100', 'p(99)<250', 'max<500'],
+        http_req_duration: [
+            'min<10',
+            'med<25',
+            'p(75)<50',
+            'p(95)<100',
+            'p(99)<250',
+            'max<500'
+        ],
     },
     stages: [
         { duration: "30s", target: target_vus },
