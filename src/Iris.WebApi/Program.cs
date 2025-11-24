@@ -6,6 +6,8 @@ builder.Services.AddRedis(builder.Configuration);
 
 builder.Services.AddHangfire(builder.Configuration);
 
+builder.Services.AddBCBHttpClient(builder.Configuration);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -15,6 +17,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseIndicatorsBackgroundJobs();
+
+app.UseHangfireDashboard();
 
 app.MapIndicatorsEndpoints();
 
