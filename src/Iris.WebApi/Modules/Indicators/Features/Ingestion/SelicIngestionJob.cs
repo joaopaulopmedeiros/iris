@@ -24,6 +24,11 @@ public class SelicIngestionJob(
 
         IDatabase db = redis.GetDatabase();
 
+        if (await db.KeyExistsAsync(Key) == false)
+        {
+            await db.ExecuteAsync("TS.CREATE", Key, "RETENTION", 0, "LABELS", "code", "selic");
+        }
+
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
         DateOnly from = await GetStartDateAsync(db, today);
         DateOnly to = today;
@@ -61,6 +66,12 @@ public class SelicIngestionJob(
         }
 
         RedisResult[] parts = (RedisResult[])result!;
+
+        if (parts == null || parts.Length == 0)
+        {
+            return today.AddYears(-10);
+        }
+
         long lastTimestamp = (long)parts[0];
 
         DateOnly lastDate = DateOnly.FromDateTime(
@@ -69,15 +80,8 @@ public class SelicIngestionJob(
 
         return lastDate.AddDays(1);
     }
-
-
     private static async Task AddIndicatorsAsync(IDatabase db, IEnumerable<Indicator> indicators)
     {
-        if (await db.KeyExistsAsync(Key) == false)
-        {
-            await db.ExecuteAsync("TS.CREATE", Key, "RETENTION", 0, "LABELS", "code", "selic");
-        }
-
         List<object> args = [];
 
         foreach (var i in indicators)
