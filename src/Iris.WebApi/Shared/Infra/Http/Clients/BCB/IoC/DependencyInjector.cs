@@ -1,3 +1,6 @@
+using System.Text.Json;
+
+using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Converters;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
 using Microsoft.Extensions.Options;
@@ -12,6 +15,10 @@ public static class DependencyInjector
     {
         services.Configure<BCBHttpClientOptions>(configuration.GetSection("HttpClients:BCB"));
 
+        JsonSerializerOptions options = new();
+        options.Converters.Add(new DateOnlyJsonConverter());
+        options.Converters.Add(new DecimalStringJsonConverter());
+
         services
             .AddRefitClient<IBCBHttpClient>()
             .ConfigureHttpClient((sp, c) =>
@@ -19,7 +26,11 @@ public static class DependencyInjector
                 var options = sp.GetRequiredService<IOptions<BCBHttpClientOptions>>().Value;
                 c.BaseAddress = new Uri(options.BaseUrl);
                 c.Timeout = TimeSpan.FromSeconds(options.TimeoutInSeconds);
-            });
+            })
+            .AddTypedClient(c => RestService.For<IBCBHttpClient>(c, new RefitSettings
+            {
+                ContentSerializer = new SystemTextJsonContentSerializer(options)
+            }));
 
         return services;
     }

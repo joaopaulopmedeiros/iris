@@ -1,8 +1,8 @@
-using Refit;
+using System.Text.Json.Serialization;
 
 namespace Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
 public record Indicator(
-    [AliasAs("data")] DateOnly Date,
-    [AliasAs("valor")] decimal Value
+    [property: JsonPropertyName("data")] DateOnly Date,
+    [property: JsonPropertyName("valor")] decimal Value
 );

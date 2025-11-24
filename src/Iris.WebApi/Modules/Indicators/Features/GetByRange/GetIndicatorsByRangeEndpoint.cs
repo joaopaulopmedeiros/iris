@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Iris.WebApi.Modules.Indicators.Models;
 using Iris.WebApi.Shared.Infra.Redis.Extensions;
 
@@ -15,12 +17,20 @@ public static class GetIndicatorsByRangeEndpoint
         {
             string key = $"indicator:{request.Code.ToLower()}";
 
-            RedisValue[] entries = await redis.GetDatabase()
+            SortedSetEntry[] entries = await redis.GetDatabase()
                 .GetSortedSetRangeByScoreAsync(key, request.From, request.To);
 
-            if (entries is null || entries.Length == 0) return Results.NoContent();
+            if (entries is null || entries.Length == 0)
+                return Results.NoContent();
 
-            IEnumerable<Indicator> data = entries.ToList<Indicator>();
+            IEnumerable<Indicator> data = entries.Select(e =>
+            {
+                string[] parts = e.Element.ToString().Split(':');
+                DateOnly date = DateOnly.ParseExact(parts[0], "yyyyMMdd", CultureInfo.InvariantCulture);
+                decimal value = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+
+                return new Indicator(date, value);
+            });
 
             GetIndicatorsByRangeResponse response = new(
                 Code: request.Code,
