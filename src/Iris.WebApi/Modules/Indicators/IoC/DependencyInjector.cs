@@ -16,7 +16,7 @@ public static class DependencyInjector
         jobManager.AddOrUpdate<SelicIngestionJob>(
             recurringJobId: "selic-ingestion-job",
             methodCall: job => job.ExecuteAsync(),
-            cronExpression: Cron.Minutely(),
+            cronExpression: Cron.Daily(),
             new RecurringJobOptions()
             {
                 TimeZone = TimeZoneInfo.Local
