@@ -9,7 +9,7 @@ export const options = {
     },
     stages: [
         { duration: "30s", target: target_vus },
-        { duration: "240s", target: target_vus },
+        { duration: "60s", target: target_vus },
         { duration: "30s", target: 0 }
     ]
 };

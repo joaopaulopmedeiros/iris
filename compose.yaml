@@ -34,23 +34,15 @@ services:
       - 3333:3333
     depends_on:
       - api
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 512M
-    sysctls:
-      - net.core.somaxconn=65535
     networks:
       - iris-network      
 
   redis:
-    image: redislabs/redistimeseries:latest
-    platform: linux/amd64
+    image: redis:7.0-alpine
     ports:
       - 6379:6379
     networks:
-      - iris-network     
+      - iris-network      
 
 networks:
   iris-network:
