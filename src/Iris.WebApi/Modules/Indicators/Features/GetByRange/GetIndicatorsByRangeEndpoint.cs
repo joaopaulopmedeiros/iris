@@ -1,7 +1,6 @@
 using System.Globalization;
 
 using Iris.WebApi.Modules.Indicators.Models;
-using Iris.WebApi.Shared.Infra.Redis.Extensions;
 
 using StackExchange.Redis;
 
@@ -16,18 +15,26 @@ public static class GetIndicatorsByRangeEndpoint
             IConnectionMultiplexer redis) =>
         {
             string key = $"indicator:{request.Code.ToLower()}";
+            IDatabase db = redis.GetDatabase();
 
-            SortedSetEntry[] entries = await redis.GetDatabase()
-                .GetSortedSetRangeByScoreAsync(key, request.From, request.To);
+            long fromMs = new DateTimeOffset(request.From.ToDateTime(TimeOnly.MinValue)).ToUnixTimeMilliseconds();
+            long toMs = new DateTimeOffset(request.To.ToDateTime(TimeOnly.MinValue)).ToUnixTimeMilliseconds();
 
-            if (entries is null || entries.Length == 0)
+            RedisResult result = await db.ExecuteAsync("TS.RANGE", key, fromMs, toMs);
+
+            if (result.IsNull)
                 return Results.NoContent();
 
-            IEnumerable<Indicator> data = entries.Select(e =>
+            IEnumerable<Indicator> data = ((RedisResult[])result!).Select(entry =>
             {
-                string[] parts = e.Element.ToString().Split(':');
-                DateOnly date = DateOnly.ParseExact(parts[0], "yyyyMMdd", CultureInfo.InvariantCulture);
-                decimal value = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                RedisResult[] parts = (RedisResult[])entry!;
+                long ts = (long)parts[0];
+                string valStr = parts[1].ToString();
+
+                DateOnly date = DateOnly.FromDateTime(
+                    DateTimeOffset.FromUnixTimeMilliseconds(ts).DateTime
+                );
+                decimal value = decimal.Parse(valStr!, NumberStyles.Float, CultureInfo.InvariantCulture);
 
                 return new Indicator(date, value);
             });

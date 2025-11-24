@@ -38,8 +38,7 @@ public class SelicIngestionJob(
                 return;
             }
 
-            SortedSetEntry[] entries = MapIndicatorsToEntries(indicators);
-            await db.SortedSetAddAsync(Key, entries);
+            await AddIndicatorsAsync(db, indicators);
         }
         catch (ApiException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -54,30 +53,43 @@ public class SelicIngestionJob(
 
     private static async Task<DateOnly> GetStartDateAsync(IDatabase db, DateOnly today)
     {
-        SortedSetEntry[] lastEntries = await db.SortedSetRangeByRankWithScoresAsync(Key, -1, -1, Order.Ascending);
+        RedisResult result = await db.ExecuteAsync("TS.GET", Key);
 
-        if (lastEntries.Length == 0)
+        if (result.IsNull)
         {
             return today.AddYears(-10);
         }
 
-        double lastScore = lastEntries.First().Score;
-        DateOnly lastDate = DateOnly.FromDateTime(new DateTime((long)lastScore));
+        RedisResult[] parts = (RedisResult[])result!;
+        long lastTimestamp = (long)parts[0];
+
+        DateOnly lastDate = DateOnly.FromDateTime(
+            DateTimeOffset.FromUnixTimeMilliseconds(lastTimestamp).DateTime
+        );
 
         return lastDate.AddDays(1);
     }
 
-    private static SortedSetEntry[] MapIndicatorsToEntries(IEnumerable<Indicator> indicators)
+
+    private static async Task AddIndicatorsAsync(IDatabase db, IEnumerable<Indicator> indicators)
     {
-        return indicators
-            .Select(i =>
-            {
-                long score = i.Date.ToDateTime(TimeOnly.MinValue).Ticks;
+        if (await db.KeyExistsAsync(Key) == false)
+        {
+            await db.ExecuteAsync("TS.CREATE", Key, "RETENTION", 0, "LABELS", "code", "selic");
+        }
 
-                string element = $"{i.Date:yyyyMMdd}:{i.Value.ToString(CultureInfo.InvariantCulture)}";
+        List<object> args = [];
 
-                return new SortedSetEntry(element, score);
-            })
-            .ToArray();
+        foreach (var i in indicators)
+        {
+            long timestamp = new DateTimeOffset(i.Date.ToDateTime(TimeOnly.MinValue))
+                .ToUnixTimeMilliseconds();
+
+            args.Add(Key);
+            args.Add(timestamp);
+            args.Add(i.Value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        await db.ExecuteAsync("TS.MADD", [.. args]);
     }
 }

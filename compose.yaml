@@ -45,11 +45,12 @@ services:
       - iris-network      
 
   redis:
-    image: redis:7.0-alpine
+    image: redislabs/redistimeseries:latest
+    platform: linux/amd64
     ports:
       - 6379:6379
     networks:
-      - iris-network      
+      - iris-network     
 
 networks:
   iris-network:
