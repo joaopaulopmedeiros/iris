@@ -1,7 +1,7 @@
 using System.Globalization;
 
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB;
-using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Logs;
+using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Loggers;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
 using Refit;

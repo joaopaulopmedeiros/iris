@@ -1,6 +1,6 @@
-using Refit;
-
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
+
+using Refit;
 
 namespace Iris.WebApi.Shared.Infra.Http.Clients.BCB;
 
