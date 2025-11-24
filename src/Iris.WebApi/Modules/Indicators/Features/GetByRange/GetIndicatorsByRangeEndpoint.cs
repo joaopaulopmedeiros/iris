@@ -15,6 +15,7 @@ public static class GetIndicatorsByRangeEndpoint
             IConnectionMultiplexer redis) =>
         {
             string key = $"indicator:{request.Code.ToLower()}";
+
             IDatabase db = redis.GetDatabase();
 
             long fromMs = new DateTimeOffset(request.From.ToDateTime(TimeOnly.MinValue)).ToUnixTimeMilliseconds();
@@ -22,21 +23,21 @@ public static class GetIndicatorsByRangeEndpoint
 
             RedisResult result = await db.ExecuteAsync("TS.RANGE", key, fromMs, toMs);
 
-            if (result.IsNull)
-                return Results.NoContent();
+            if (result.IsNull) return Results.NoContent();
 
             IEnumerable<Indicator> data = ((RedisResult[])result!).Select(entry =>
             {
                 RedisResult[] parts = (RedisResult[])entry!;
-                long ts = (long)parts[0];
-                string valStr = parts[1].ToString();
 
-                DateOnly date = DateOnly.FromDateTime(
-                    DateTimeOffset.FromUnixTimeMilliseconds(ts).DateTime
+                long timestamp = (long)parts[0];
+                DateOnly parsedDate = DateOnly.FromDateTime(
+                    DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime
                 );
-                decimal value = decimal.Parse(valStr!, NumberStyles.Float, CultureInfo.InvariantCulture);
 
-                return new Indicator(date, value);
+                string value = parts[1].ToString();
+                decimal parsedValue = decimal.Parse(value!, NumberStyles.Float, CultureInfo.InvariantCulture);
+
+                return new Indicator(parsedDate, parsedValue);
             });
 
             GetIndicatorsByRangeResponse response = new(
