@@ -19,8 +19,8 @@ services:
         condition: on-failure 
       resources:
         limits:
-          cpus: "0.5"
-          memory: 120M
+          cpus: 0.5
+          memory: 256M
     networks:
       - iris-network
 
