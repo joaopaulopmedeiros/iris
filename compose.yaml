@@ -10,6 +10,8 @@ services:
       - ConnectionStrings__Redis=redis:6379
       - HttpClients__BCB__BaseUrl=https://api.bcb.gov.br
       - HttpClients__BCB__TimeoutInSeconds=60
+      - ASPNETCORE_URLS=http://+:5164
+      - ASPNETCORE_ENVIRONMENT=Production
     expose:
       - 5164
     deploy:
@@ -32,6 +34,13 @@ services:
       - 3333:3333
     depends_on:
       - api
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    sysctls:
+      - net.core.somaxconn=65535
     networks:
       - iris-network      
 

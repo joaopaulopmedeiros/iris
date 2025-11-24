@@ -5,7 +5,7 @@ const target_vus = 1500;
 
 export const options = {
     thresholds: {
-        http_req_duration: ['avg<500', 'med<500', 'min<100', 'max<2000'],
+        http_req_duration: ['min<10', 'med<25', 'p(95)<50', 'p(99)<100', 'max<500'],
     },
     stages: [
         { duration: "30s", target: target_vus },
