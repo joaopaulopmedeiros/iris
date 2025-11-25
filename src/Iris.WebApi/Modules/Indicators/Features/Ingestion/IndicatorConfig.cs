@@ -14,14 +14,14 @@ public static class IndicatorConfigs
     public static readonly IndicatorConfig Selic = new(
         Code: "selic",
         BcbSeriesCode: "bcdata.sgs.11",
-        CronExpression: Cron.Daily(),
+        CronExpression: Cron.Minutely(),
         DisplayName: "Taxa SELIC"
     );
 
     public static readonly IndicatorConfig Ipca = new(
         Code: "ipca",
         BcbSeriesCode: "bcdata.sgs.10844",
-        CronExpression: Cron.Monthly(),
+        CronExpression: Cron.Minutely(),
         DisplayName: "IPCA"
     );
 

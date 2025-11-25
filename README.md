@@ -17,3 +17,9 @@ up                        Setup containers
 Contributions are welcome!
 Open issues for bugs, questions, or suggestions.
 Submit pull requests with new resources or improvements.
+
+## Further Results
+
+Once Redis was fully populated, a load test was performed and metrics were collected using k6:
+
+<img src="./docs/k6-screenshot.png">
