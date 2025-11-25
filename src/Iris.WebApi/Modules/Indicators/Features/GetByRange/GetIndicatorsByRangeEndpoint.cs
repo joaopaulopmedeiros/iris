@@ -1,6 +1,5 @@
 using System.Globalization;
 
-using Iris.WebApi.Modules.Indicators.Features.Ingestion;
 using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
 using Iris.WebApi.Modules.Indicators.Models;
 
@@ -18,13 +17,13 @@ public static class GetIndicatorsByRangeEndpoint
         {
             IndicatorConfig? config = IndicatorConfigs.GetByCode(request.Code);
 
-            if (config is null)
+            if (config?.Code is null)
             {
                 string validCodes = string.Join(", ", IndicatorConfigs.All.Select(c => c.Code));
-                return Results.BadRequest($"Invalid indicator code. Valid codes: {validCodes}");
+                return Results.BadRequest(new { Message = $"Invalid indicator code. Valid codes: {validCodes}" });
             }
 
-            string key = config.RedisKey;
+            string key = config.Value.RedisKey;
 
             IDatabase db = redis.GetDatabase();
 

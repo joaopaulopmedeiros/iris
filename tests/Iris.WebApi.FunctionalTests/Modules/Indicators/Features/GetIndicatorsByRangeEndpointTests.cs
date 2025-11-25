@@ -44,6 +44,20 @@ public class GetIndicatorsByRangeEndpointTests(WebApplicationFactory<Program> fa
         });
     }
 
+    [Fact]
+    public async Task GetIndicatorsByRange_ShouldReturnBadRequest_WhenInvalidCodeIsPassed()
+    {
+        DateOnly from = DateOnly.FromDateTime(DateTime.Now.AddDays(-10));
+        DateOnly to = DateOnly.FromDateTime(DateTime.Now);
+
+        string url = $"/indicators?code=invalid_code&from={from:yyyy-MM-dd}&to={to:yyyy-MM-dd}";
+        HttpClient httpClient = factory.CreateClient();
+
+        HttpResponseMessage response = await httpClient.GetAsync(url, TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
     private async Task SeedTestDataAsync()
     {
         using var scope = factory.Services.CreateScope();

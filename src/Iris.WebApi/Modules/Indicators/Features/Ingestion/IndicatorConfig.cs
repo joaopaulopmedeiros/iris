@@ -1,12 +1,12 @@
 namespace Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
 
-public record IndicatorConfig(
+public record struct IndicatorConfig(
     string Code,
     string BcbSeriesCode,
     string CronExpression,
     string DisplayName)
 {
-    public string RedisKey => $"indicator:{Code.ToLower()}";
+    public string RedisKey => $"indicator:{Code?.ToLower()}";
 }
 
 public static class IndicatorConfigs
