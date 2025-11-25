@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-const target_vus = 1000;
+const target_vus = 1500;
 
 export const options = {
     thresholds: {

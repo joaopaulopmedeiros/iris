@@ -1,5 +1,7 @@
 using System.Globalization;
 
+using Iris.WebApi.Modules.Indicators.Features.Ingestion;
+using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
 using Iris.WebApi.Modules.Indicators.Models;
 
 using StackExchange.Redis;
@@ -14,7 +16,15 @@ public static class GetIndicatorsByRangeEndpoint
             [AsParameters] GetIndicatorsByRangeRequest request,
             IConnectionMultiplexer redis) =>
         {
-            string key = $"indicator:{request.Code.ToLower()}";
+            IndicatorConfig? config = IndicatorConfigs.GetByCode(request.Code);
+
+            if (config is null)
+            {
+                string validCodes = string.Join(", ", IndicatorConfigs.All.Select(c => c.Code));
+                return Results.BadRequest($"Invalid indicator code. Valid codes: {validCodes}");
+            }
+
+            string key = config.RedisKey;
 
             IDatabase db = redis.GetDatabase();
 

@@ -20,6 +20,8 @@ builder.Services.AddHangfire(builder.Configuration);
 
 builder.Services.AddBCBHttpClient(builder.Configuration);
 
+builder.Services.AddIndicatorsServices();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

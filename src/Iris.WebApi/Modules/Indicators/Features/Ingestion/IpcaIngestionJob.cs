@@ -6,15 +6,15 @@ using StackExchange.Redis;
 
 namespace Iris.WebApi.Modules.Indicators.Features.Ingestion;
 
-public class SelicIngestionJob(
-    ILogger<SelicIngestionJob> logger,
+public class IpcaIngestionJob(
+    ILogger<IpcaIngestionJob> logger,
     IBCBHttpClient httpClient,
-    IConnectionMultiplexer redis) : BaseIndicatorIngestionJob<SelicIngestionJob>(logger, httpClient, redis)
+    IConnectionMultiplexer redis) : BaseIndicatorIngestionJob<IpcaIngestionJob>(logger, httpClient, redis)
 {
-    protected override IndicatorConfig Config => IndicatorConfigs.Selic;
+    protected override IndicatorConfig Config => IndicatorConfigs.Ipca;
 
     protected override async Task<IEnumerable<Indicator>> GetIndicatorDataAsync(IndicatorQueryParams queryParams)
     {
-        return await _httpClient.GetSelicAsync(queryParams);
+        return await _httpClient.GetIpcaAsync(queryParams);
     }
 }
