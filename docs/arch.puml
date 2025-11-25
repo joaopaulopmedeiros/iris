@@ -1,0 +1,26 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LEFT_RIGHT()
+!theme vibrant
+
+title C4 Container - Iris Architecture
+
+Person(user, "User", "Frontend, backend, or bot consuming indicators")
+
+System_Boundary(iris, "Iris") {
+  Container(nginx, "Nginx", "Reverse Proxy", "Proxies API requests")
+  Container(api, "Iris API", "C# / ASP.NET Core + Hangfire", "REST API; reads data from Redis. Data is pre-fetched and updated via jobs (Hangfire).")
+  ContainerDb(redis, "Redis", "Time Series", "Stores all series, updated by API's background jobs")
+}
+
+Container_Ext(bacen, "Official Data Source", "BCB External API", "Source of economic indicators")
+
+Rel(user, nginx, "HTTP(s) request")
+Rel(nginx, api, "Proxies requests")
+Rel(api, redis, "Reads/writes series")
+Rel_Back(api, bacen, "Fetches data via scheduled jobs (Hangfire)", "HTTPS (background job)")
+
+SHOW_PERSON_OUTLINE()
+
+@enduml
