@@ -11,7 +11,7 @@ System_Boundary(iris, "Iris") {
   Container(nginx, "Nginx", "Reverse Proxy")
   Container(api, "Iris API", "C# / ASP.NET Core + Hangfire", "Restful API with scheduled jobs") {
   }
-  ContainerDb(redis, "Redis", "Time Series", "Stores all series, updated by API's background jobs")
+  ContainerDb(redis, "Redis", "Time Series", "Stores indicators as times series for fast retrieval")
 }
 
 Container_Ext(bacen, "Official Data Source", "BCB External API", "Source of economic indicators")
