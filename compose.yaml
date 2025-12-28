@@ -43,7 +43,7 @@ services:
       - iris-network      
 
   redis:
-    image: redislabs/redistimeseries:latest
+    image: redislabs/redistimeseries:1.10.14
     platform: linux/amd64
     ports:
       - 6379:6379
