@@ -60,6 +60,8 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "9201:9201"
+    networks:
+      - iris-network
 
   tempo:
     image: grafana/tempo:latest
@@ -71,6 +73,8 @@ services:
       - "3200"  # tempo
       - "4317"  # otlp grpc
       - "4318"  # otlp http
+    networks:
+      - iris-network
 
   prometheus:
     image: prom/prometheus:latest
@@ -82,12 +86,16 @@ services:
       - ./prometheus.yaml:/etc/prometheus.yaml
     ports:
       - "9090:9090"
+    networks:
+      - iris-network
 
   loki:
     image: grafana/loki:latest
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml      
+    networks:
+      - iris-network
 
   grafana:
     image: grafana/grafana:9.3.2
@@ -100,6 +108,8 @@ services:
       - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
     ports:
       - "3000:3000"
+    networks:
+      - iris-network
 
 networks:
   iris-network:
