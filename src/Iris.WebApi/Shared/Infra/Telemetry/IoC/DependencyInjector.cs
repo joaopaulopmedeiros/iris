@@ -30,6 +30,7 @@ public static class DependencyInjector
                 .AddConsoleExporter());
 
         otel.WithTracing(tracing => tracing
+                .AddRedisInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint))
                 .AddConsoleExporter());
