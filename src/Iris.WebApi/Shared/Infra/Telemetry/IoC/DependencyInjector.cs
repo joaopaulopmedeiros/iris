@@ -26,18 +26,15 @@ public static class DependencyInjector
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
-                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint))
-                .AddConsoleExporter());
+                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint)));
 
         otel.WithTracing(tracing => tracing
                 .AddRedisInstrumentation()
                 .AddAspNetCoreInstrumentation()
-                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint))
-                .AddConsoleExporter());
+                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint)));
 
         otel.WithLogging(logging => logging
-                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint))
-                .AddConsoleExporter());
+                .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint)));
 
         return services;
     }

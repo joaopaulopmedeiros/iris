@@ -22,15 +22,13 @@ public static class GetIndicatorsByRangeEndpoint
                 return Results.BadRequest(new { Message = $"Invalid indicator code. Valid codes: {validCodes}" });
             }
 
-            IDatabase db = redis.GetDatabase();
-
-            RedisResult? timeSeries = await db.ExecuteAsync(
+            RedisResult timeSeries = await redis.GetDatabase().ExecuteAsync(
                 "TS.RANGE",
                 config.Value.RedisKey,
                 request.From.ToUnixMilliseconds(),
                 request.To.ToUnixMilliseconds());
 
-            if (timeSeries.IsNull) return Results.NoContent();
+            if (timeSeries.IsNull || timeSeries.Length == 0) return Results.NoContent();
 
             IEnumerable<Indicator> data = IndicatorMapper.Map((RedisResult[])timeSeries!);
 
