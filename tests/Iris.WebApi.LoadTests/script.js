@@ -1,6 +1,8 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
+const target_vus = __ENV.TARGET_VUS ? parseInt(__ENV.TARGET_VUS) : 1000;
+
 export const options = {
     thresholds: {
         http_req_duration: [
@@ -13,8 +15,8 @@ export const options = {
         ],
     },
     stages: [
-        { duration: "60s", target: 500 },
-        { duration: "60s", target: 1000 },
+        { duration: "60s", target: target_vus },
+        { duration: "60s", target: target_vus },
         { duration: "60s", target: 0 }
     ]
 };
