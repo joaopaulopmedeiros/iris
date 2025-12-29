@@ -10,6 +10,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
+builder.Services.AddTelemetry(builder.Configuration);
+
 builder.Services.AddHealthChecks();
 
 builder.Services.AddOpenApi();
