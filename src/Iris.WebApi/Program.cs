@@ -1,6 +1,5 @@
 var builder = WebApplication.CreateSlimBuilder(args);
 
-builder.Logging.AddConsole();
 builder.Logging.AddJsonConsole();
 
 builder.Services.ConfigureHttpJsonOptions(options =>
