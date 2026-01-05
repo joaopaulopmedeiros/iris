@@ -44,10 +44,12 @@ services:
       - iris-network      
 
   redis:
-    image: redislabs/redistimeseries:1.10.14
-    platform: linux/amd64
+    image: redis/redis-stack:7.4.0-v1
+    platform: linux/arm64/v8
     ports:
       - 6379:6379
+    environment:
+      - REDIS_ARGS=--appendonly no --save ""
     networks:
       - iris-network     
 
