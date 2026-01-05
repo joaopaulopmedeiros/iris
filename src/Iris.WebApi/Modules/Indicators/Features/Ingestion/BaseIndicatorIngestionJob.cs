@@ -26,7 +26,13 @@ public abstract class BaseIndicatorIngestionJob<TJob>(
 
         if (!await db.KeyExistsAsync(Config.RedisKey))
         {
-            await db.ExecuteAsync("TS.CREATE", Config.RedisKey, "RETENTION", 0, "LABELS", "code", Config.Code.ToLower());
+            await db.ExecuteAsync(
+                "TS.CREATE",
+                Config.RedisKey,
+                "RETENTION", 0,
+                "CHUNK_SIZE", 128,
+                "DUPLICATE_POLICY", "LAST",
+                "LABELS", "code", Config.Code.ToLower());
         }
 
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);

@@ -29,6 +29,7 @@ public static class DependencyInjector
                 .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint)));
 
         otel.WithTracing(tracing => tracing
+                .AddSource("Iris.Indicators")
                 .AddRedisInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddOtlpExporter(opt => opt.Endpoint = new Uri(otlpEndpoint)));

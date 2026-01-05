@@ -11,5 +11,8 @@ public static class DependencyInjector
             string connection = configuration.GetConnectionString("Redis")!;
             return ConnectionMultiplexer.Connect(connection);
         });
+
+        services.AddSingleton(sp =>
+            sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
     }
 }
