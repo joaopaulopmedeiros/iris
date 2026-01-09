@@ -11,7 +11,6 @@ namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
 public static class GetIndicatorsByRangeEndpoint
 {
     private static readonly ActivitySource ActivitySource = new("Iris.Indicators");
-    private const int TotalMillisecondsInADay = 86_400_000;
     public static WebApplication MapGetIndicatorsByRangeEndpoint(this WebApplication app)
     {
         app.MapGet("/indicators", async (
@@ -35,8 +34,7 @@ public static class GetIndicatorsByRangeEndpoint
                 "TS.RANGE",
                 config.Value.RedisKey,
                 request.From.ToUnixMilliseconds(),
-                request.To.ToUnixMilliseconds(),
-                "AGGREGATION", "last", TotalMillisecondsInADay);
+                request.To.ToUnixMilliseconds());
 
             if (timeSeries.IsNull || timeSeries.Length == 0) return Results.NoContent();
 
@@ -44,7 +42,10 @@ public static class GetIndicatorsByRangeEndpoint
             GetIndicatorsByRangeResponse response = new(request.Code, data);
             return Results.Ok(response);
         })
-        .WithTags("Indicators");
+        .WithTags("Indicators")
+        .CacheOutput(policy => policy
+            .Expire(TimeSpan.FromMinutes(10))
+            .SetVaryByQuery("code", "from", "to"));
 
         return app;
     }

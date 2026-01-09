@@ -33,6 +33,8 @@ if (app.Environment.IsDevelopment())
 
 app.MapHealthChecks("/health");
 
+app.UseOutputCache();
+
 app.UseIndicatorsBackgroundJobs();
 
 app.UseHangfireDashboard();

@@ -14,5 +14,14 @@ public static class DependencyInjector
 
         services.AddSingleton(sp =>
             sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
+
+        services.AddOutputCache(options => options.AddBasePolicy(builder => builder.Expire(TimeSpan.FromMinutes(1))));
+
+        services.AddStackExchangeRedisOutputCache(options =>
+        {
+            string connection = configuration.GetConnectionString("Redis")!;
+            options.Configuration = connection;
+            options.InstanceName = "iris:outputcache:";
+        });
     }
 }
