@@ -12,10 +12,13 @@ public static class IndicatorMapper
     {
         return results.Select(entry =>
         {
-            var parts = (RedisResult[])entry!;
-            var timestamp = (long)parts[0];
-            var parsedDate = DateOnly.FromDateTime(DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime);
-            var parsedValue = decimal.Parse(parts[1]!.ToString()!, NumberStyles.Float, CultureInfo.InvariantCulture);
+            RedisResult[] parts = (RedisResult[])entry!;
+
+            long timestamp = (long)parts[0];
+
+            DateOnly parsedDate = DateOnly.FromDateTime(DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime);
+
+            decimal parsedValue = decimal.Parse(parts[1]!.ToString()!, NumberStyles.Float, CultureInfo.InvariantCulture);
 
             return new Indicator(parsedDate, parsedValue);
         });

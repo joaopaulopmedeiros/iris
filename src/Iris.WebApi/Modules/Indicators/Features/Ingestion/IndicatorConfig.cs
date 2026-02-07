@@ -6,7 +6,7 @@ public record struct IndicatorConfig(
     string CronExpression,
     string DisplayName)
 {
-    public string RedisKey => $"indicator:{Code?.ToLower()}";
+    public readonly string RedisKey => $"indicator:{Code?.ToLower()}";
 }
 
 public static class IndicatorConfigs
