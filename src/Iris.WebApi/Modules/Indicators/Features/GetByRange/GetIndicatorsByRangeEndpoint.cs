@@ -25,10 +25,10 @@ public static class GetIndicatorsByRangeEndpoint
                 return Results.BadRequest(new { Message = $"Invalid indicator code. Valid codes: {validCodes}" });
             }
 
-            using var redisActivity = ActivitySource.StartActivity("Redis.Query");
-            redisActivity?.SetTag("redis.key", config.Value.RedisKey);
-            redisActivity?.SetTag("redis.from", request.From.ToString());
-            redisActivity?.SetTag("redis.to", request.To.ToString());
+            using var activity = ActivitySource.StartActivity("Redis.Query");
+            activity?.SetTag("redis.key", config.Value.RedisKey);
+            activity?.SetTag("redis.from", request.From.ToString());
+            activity?.SetTag("redis.to", request.To.ToString());
 
             RedisResult timeSeries = await redis.ExecuteAsync(
                 "TS.RANGE",

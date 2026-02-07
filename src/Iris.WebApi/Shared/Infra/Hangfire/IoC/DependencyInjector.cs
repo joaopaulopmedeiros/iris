@@ -1,4 +1,3 @@
-using Hangfire;
 using Hangfire.Redis.StackExchange;
 
 namespace Iris.WebApi.Shared.Infra.Hangfire.IoC;

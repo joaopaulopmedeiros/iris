@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Converters;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 

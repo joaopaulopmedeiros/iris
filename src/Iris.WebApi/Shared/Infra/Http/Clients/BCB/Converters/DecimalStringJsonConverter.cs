@@ -1,6 +1,4 @@
 using System.Globalization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Iris.WebApi.Shared.Infra.Http.Clients.BCB.Converters;
 
