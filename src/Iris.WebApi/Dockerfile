@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine3.23 AS base
 WORKDIR /app
 EXPOSE 5164
 
 ENV ASPNETCORE_URLS=http://+:5164
 
 USER app
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine3.23 AS build
 ARG configuration=Release
 WORKDIR /src
 COPY ["src/Iris.WebApi/Iris.WebApi.csproj", "src/Iris.WebApi/"]
