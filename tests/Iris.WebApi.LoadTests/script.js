@@ -45,7 +45,7 @@ export default function () {
     const range = dateRanges[Math.floor(Math.random() * dateRanges.length)];
     const code = codes[Math.floor(Math.random() * codes.length)];
 
-    const url = `http://localhost:3333/indicators?code=${code}&from=${range.from}&to=${range.to}`;
+    const url = `http://nginx:3333/indicators?code=${code}&from=${range.from}&to=${range.to}`;
     const res = http.get(url);
 
     check(res, {

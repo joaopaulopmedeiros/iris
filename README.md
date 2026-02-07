@@ -10,16 +10,14 @@ Use the following `make` commands:
 Available commands:
 =============================
 down                      Stop containers
+load                      Run load test
 up                        Setup containers
 ```
 
 ## Contributing
-Contributions are welcome!
-Open issues for bugs, questions, or suggestions.
-Submit pull requests with new resources or improvements.
+Contributions are welcome! Open issues for bugs, questions, or suggestions. Submit pull requests with new resources or improvements.
 
 ## Further Results
-
 Once Redis was fully populated, a load test was performed and metrics collected using k6:
 
 <img src="./docs/k6-screenshot.png">
