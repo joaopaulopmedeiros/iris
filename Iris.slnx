@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Iris.WebApi/Iris.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Iris.WebApi.FunctionalTests/Iris.WebApi.FunctionalTests.csproj" />
+  </Folder>
+</Solution>
