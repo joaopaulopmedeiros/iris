@@ -1,12 +1,9 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
-using Iris.WebApi.Modules.Indicators.Mappers;
 using Iris.WebApi.Modules.Indicators.Models;
+using Iris.WebApi.Modules.Indicators.Repositories;
 using Iris.WebApi.Shared.Validation;
-
-using StackExchange.Redis;
 
 namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
 
@@ -25,7 +22,7 @@ public static class GetIndicatorsByRangeEndpoint
         HttpContext context,
         [AsParameters] GetIndicatorsByRangeRequest request,
         IValidator<GetIndicatorsByRangeRequest> validator,
-        IDatabase redis)
+        IIndicatorTimeSeriesRepository repository)
     {
         ValidationResult validationResult = await validator.ValidateAsync(request);
 
@@ -34,19 +31,11 @@ public static class GetIndicatorsByRangeEndpoint
             return Results.BadRequest(validationResult.ToApiResponse());
         }
 
-        RedisResult timeSeries = await redis.ExecuteAsync(
-            "TS.RANGE",
-            IndicatorConfigs.GetByCode(request.Code).RedisKey,
-            request.From.ToUnixMilliseconds(),
-            request.To.ToUnixMilliseconds());
+        IEnumerable<Indicator> indicators = await repository
+            .GetIndicatorsAsync(request.Code, request.From, request.To);
 
-        if (timeSeries.IsNull || timeSeries.Length == 0)
-        {
-            return Results.NoContent();
-        }
-
-        IEnumerable<Indicator> data = IndicatorMapper.Map((RedisResult[])timeSeries!);
-
-        return Results.Ok(new GetIndicatorsByRangeResponse(request.Code, data));
+        return indicators is null || !indicators.Any()
+            ? Results.NoContent()
+            : Results.Ok(new GetIndicatorsByRangeResponse(request.Code, indicators));
     }
 }

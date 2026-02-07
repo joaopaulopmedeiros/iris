@@ -11,7 +11,7 @@ using StackExchange.Redis;
 
 namespace Iris.WebApi.FunctionalTests.Modules.Indicators.Features;
 
-public class GetIndicatorsByRangeEndpointTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>, IAsyncDisposable
+public sealed class GetIndicatorsByRangeEndpointTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>, IAsyncDisposable
 {
     private const string TestKey = "indicator:selic";
 

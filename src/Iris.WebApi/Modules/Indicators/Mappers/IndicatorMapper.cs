@@ -1,6 +1,7 @@
 using System.Globalization;
 
 using Iris.WebApi.Modules.Indicators.Models;
+using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
 using StackExchange.Redis;
 
@@ -23,4 +24,9 @@ public static class IndicatorMapper
             return new Indicator(parsedDate, parsedValue);
         });
     }
+
+    public static Indicator Map(RawIndicator raw) => new(raw.Date, raw.Value);
+
+    public static IEnumerable<Indicator> Map(IEnumerable<RawIndicator> raw) =>
+        raw.Select(Map);
 }

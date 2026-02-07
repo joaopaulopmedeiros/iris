@@ -32,7 +32,7 @@ public static class IndicatorSeeder
 
         if (args.Count > 0)
         {
-            await db.ExecuteAsync("TS.MADD", args.ToArray());
+            await db.ExecuteAsync("TS.MADD", [.. args]);
         }
     }
 

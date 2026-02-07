@@ -1,6 +1,4 @@
-using Iris.WebApi.Modules.Indicators.Features.GetByRange;
-
-namespace Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
+namespace Iris.WebApi.Modules.Indicators.Features.Ingestion;
 
 public record struct IndicatorConfig(
     string Code,

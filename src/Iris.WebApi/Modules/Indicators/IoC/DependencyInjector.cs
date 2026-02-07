@@ -2,12 +2,18 @@ using FluentValidation;
 
 using Iris.WebApi.Modules.Indicators.Features.GetByRange;
 using Iris.WebApi.Modules.Indicators.Features.Ingestion;
-using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
+using Iris.WebApi.Modules.Indicators.Repositories;
 
 namespace Iris.WebApi.Modules.Indicators.IoC;
 
 public static class DependencyInjector
 {
+    public static IServiceCollection AddIndicatorsRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IIndicatorTimeSeriesRepository, RedisTimeSeriesRepository>();
+        return services;
+    }
+
     public static IServiceCollection AddIndicatorsValidators(this IServiceCollection services)
     {
         services.AddScoped<IValidator<GetIndicatorsByRangeRequest>, GetIndicatorsByRangeRequestValidator>();

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
+using Iris.WebApi.Modules.Indicators.Features.Ingestion;
 
 namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
 

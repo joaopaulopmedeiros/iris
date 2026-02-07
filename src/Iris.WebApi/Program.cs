@@ -21,6 +21,8 @@ builder.Services.AddHangfire(builder.Configuration);
 
 builder.Services.AddBCBHttpClient(builder.Configuration);
 
+builder.Services.AddIndicatorsRepositories();
+
 builder.Services.AddIndicatorsValidators();
 
 builder.Services.AddIndicatorsServices();
@@ -46,5 +48,3 @@ app.MapIndicatorsEndpoints();
 app.UseHttpsRedirection();
 
 app.Run();
-
-public partial class Program { }
