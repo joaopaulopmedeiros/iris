@@ -1,3 +1,5 @@
+using Iris.WebApi.Modules.Indicators.Features.GetByRange;
+
 namespace Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
 
 public record struct IndicatorConfig(
@@ -27,6 +29,9 @@ public static class IndicatorConfigs
 
     public static readonly IndicatorConfig[] All = [Selic, Ipca];
 
-    public static IndicatorConfig? GetByCode(string code)
-        => All.FirstOrDefault(c => c.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+    public static IndicatorConfig GetByCode(string code)
+        => All.First(c => c.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+
+    public static bool IsValidCode(string code)
+        => All.Any(c => c.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
 }

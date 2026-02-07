@@ -1,3 +1,5 @@
+using FluentValidation;
+
 using Iris.WebApi.Modules.Indicators.Features.GetByRange;
 using Iris.WebApi.Modules.Indicators.Features.Ingestion;
 using Iris.WebApi.Modules.Indicators.Features.Ingestion.Models;
@@ -6,6 +8,12 @@ namespace Iris.WebApi.Modules.Indicators.IoC;
 
 public static class DependencyInjector
 {
+    public static IServiceCollection AddIndicatorsValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<GetIndicatorsByRangeRequest>, GetIndicatorsByRangeRequestValidator>();
+        return services;
+    }
+
     public static IServiceCollection AddIndicatorsServices(this IServiceCollection services)
     {
         services.AddScoped<SelicIngestionJob>();
