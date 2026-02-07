@@ -45,7 +45,6 @@ services:
 
   redis:
     image: redis/redis-stack:7.4.0-v1
-    platform: linux/arm64/v8
     ports:
       - 6379:6379
     environment:
@@ -79,7 +78,7 @@ services:
       - iris-network
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.5.1
     command:
       - --config.file=/etc/prometheus.yaml
       - --web.enable-remote-write-receiver
@@ -92,7 +91,7 @@ services:
       - iris-network
 
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:3.6.5
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml      
