@@ -10,6 +10,8 @@ namespace Iris.WebApi.Modules.Indicators.Repositories;
 
 public sealed class RedisTimeSeriesRepository(IDatabase redis) : IIndicatorTimeSeriesRepository
 {
+    private const int MaxLookbackYears = 10;
+
     public async Task EnsureTimeSeriesExistsAsync(IndicatorConfig config)
     {
         if (await redis.KeyExistsAsync(config.RedisKey))
@@ -32,14 +34,14 @@ public sealed class RedisTimeSeriesRepository(IDatabase redis) : IIndicatorTimeS
 
             if (result.IsNull)
             {
-                return today.AddYears(-10);
+                return today.AddYears(-MaxLookbackYears);
             }
 
             RedisResult[] parts = (RedisResult[])result!;
 
             if (parts is null || parts.Length == 0)
             {
-                return today.AddYears(-10);
+                return today.AddYears(-MaxLookbackYears);
             }
 
             long lastTimestampMs = (long)parts[0];
@@ -51,7 +53,7 @@ public sealed class RedisTimeSeriesRepository(IDatabase redis) : IIndicatorTimeS
         }
         catch
         {
-            return today.AddYears(-10);
+            return today.AddYears(-MaxLookbackYears);
         }
     }
 
