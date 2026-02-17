@@ -6,14 +6,16 @@ public static class DependencyInjector
 {
     public static IServiceCollection AddHangfire(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("Redis")!;
-
         RedisStorageOptions storageOptions = new()
         {
             Prefix = "hangfire:"
         };
 
-        services.AddHangfire(config => config.UseRedisStorage(connectionString, storageOptions));
+        services.AddHangfire(config =>
+        {
+            string connectionString = configuration.GetConnectionString("Redis")!;
+            config.UseRedisStorage(connectionString, storageOptions);
+        });
 
         services.AddHangfireServer();
 

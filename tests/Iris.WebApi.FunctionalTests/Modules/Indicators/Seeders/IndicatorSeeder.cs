@@ -8,15 +8,16 @@ namespace Iris.WebApi.FunctionalTests.Modules.Indicators.Seeders;
 
 public static class IndicatorSeeder
 {
-    public static async Task SeedTestDataAsync(IServiceProvider serviceProvider, string testKey)
+    public static async Task SeedTestDataAsync(IServiceProvider serviceProvider, string code)
     {
+        string testKey = $"indicator:{code}";
         using var scope = serviceProvider.CreateScope();
         IConnectionMultiplexer redis = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
         IDatabase db = redis.GetDatabase();
 
         if (await db.KeyExistsAsync(testKey) == false)
         {
-            await db.ExecuteAsync("TS.CREATE", testKey, "RETENTION", 0, "LABELS", "code", "selic");
+            await db.ExecuteAsync("TS.CREATE", testKey, "RETENTION", 0, "LABELS", "code", code);
         }
 
         List<(long timestamp, decimal value)> testData = GenerateTestData(15);

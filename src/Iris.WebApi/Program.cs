@@ -9,7 +9,11 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
-builder.Services.AddTelemetry(builder.Configuration);
+if (builder.Environment.IsProduction() || builder.Environment.IsDevelopment())
+{
+    builder.Services.AddTelemetry(builder.Configuration);
+}
+
 
 builder.Services.AddHealthChecks();
 
