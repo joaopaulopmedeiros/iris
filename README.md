@@ -1,7 +1,7 @@
 # Iris
 Iris is a lightweight API designed to provide seamless, low latency access to official Brazilian economic indicators, including the Selic interest rate and IPCA inflation index.
 
-<img src="./docs/arch.png">
+<img src="./docs/arch.png" alt="C4 Architecture Diagram">
 
 ## Local Setup
 Use the following `make` commands:
@@ -18,6 +18,6 @@ up                        Setup containers
 Contributions are welcome! Open issues for bugs, questions, or suggestions. Submit pull requests with new resources or improvements.
 
 ## Further Results
-Once Redis was fully populated, a load test was performed and metrics collected using k6:
+After fully populating Redis, a load test was executed using k6. The results demonstrate consistent low response times and stable throughput under proposed concurrency.
 
-<img src="./docs/k6-screenshot.png">
+<img src="./docs/k6-screenshot.png" alt="k6 Load Test Results" />
