@@ -19,7 +19,7 @@ load:
 		fi; \
 	done
 	@echo "Starting Load Test..."
-	docker compose -f $(COMPOSE_FILE) run k6-load-test run //scripts//script.js
+	docker compose -f $(COMPOSE_FILE) run --rm k6-load-test run //scripts//script.js
 
 down:
 	@echo "Stopping Docker Compose..."
