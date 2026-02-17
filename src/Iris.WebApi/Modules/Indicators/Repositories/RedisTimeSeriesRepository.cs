@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 
-using Iris.WebApi.Modules.Indicators.Features.Ingestion;
 using Iris.WebApi.Modules.Indicators.Mappers;
 using Iris.WebApi.Modules.Indicators.Models;
 

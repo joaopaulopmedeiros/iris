@@ -1,4 +1,4 @@
-namespace Iris.WebApi.Modules.Indicators.Features.Ingestion;
+namespace Iris.WebApi.Modules.Indicators.Models;
 
 public record struct IndicatorConfig(
     string Code,

@@ -1,4 +1,4 @@
-namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
+namespace Iris.WebApi.Modules.Indicators.Endpoints.GetByRange;
 
 public readonly record struct GetIndicatorsByRangeRequest(
     string Code,

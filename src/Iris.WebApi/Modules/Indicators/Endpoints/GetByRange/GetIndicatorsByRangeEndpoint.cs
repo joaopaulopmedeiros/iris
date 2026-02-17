@@ -5,7 +5,7 @@ using Iris.WebApi.Modules.Indicators.Models;
 using Iris.WebApi.Modules.Indicators.Repositories;
 using Iris.WebApi.Shared.Validation;
 
-namespace Iris.WebApi.Modules.Indicators.Features.GetByRange;
+namespace Iris.WebApi.Modules.Indicators.Endpoints.GetByRange;
 
 public static class GetIndicatorsByRangeEndpoint
 {

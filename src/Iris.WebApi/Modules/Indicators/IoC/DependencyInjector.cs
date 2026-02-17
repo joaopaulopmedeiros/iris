@@ -1,7 +1,8 @@
 using FluentValidation;
 
-using Iris.WebApi.Modules.Indicators.Features.GetByRange;
-using Iris.WebApi.Modules.Indicators.Features.Ingestion;
+using Iris.WebApi.Modules.Indicators.Endpoints.GetByRange;
+using Iris.WebApi.Modules.Indicators.Jobs;
+using Iris.WebApi.Modules.Indicators.Models;
 using Iris.WebApi.Modules.Indicators.Repositories;
 
 namespace Iris.WebApi.Modules.Indicators.IoC;

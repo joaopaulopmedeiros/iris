@@ -1,4 +1,5 @@
 using Iris.WebApi.Modules.Indicators.Mappers;
+using Iris.WebApi.Modules.Indicators.Models;
 using Iris.WebApi.Modules.Indicators.Repositories;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Loggers;
@@ -6,7 +7,7 @@ using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
 using Refit;
 
-namespace Iris.WebApi.Modules.Indicators.Features.Ingestion;
+namespace Iris.WebApi.Modules.Indicators.Jobs;
 
 [AutomaticRetry(Attempts = 1)]
 public abstract class BaseIndicatorIngestionJob<TJob>(

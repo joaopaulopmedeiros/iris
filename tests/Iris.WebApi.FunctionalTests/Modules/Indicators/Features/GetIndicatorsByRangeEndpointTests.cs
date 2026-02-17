@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Iris.WebApi.FunctionalTests.Modules.Indicators.Seeders;
-using Iris.WebApi.Modules.Indicators.Features.GetByRange;
+using Iris.WebApi.Modules.Indicators.Endpoints.GetByRange;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

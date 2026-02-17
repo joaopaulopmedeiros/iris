@@ -1,8 +1,9 @@
+using Iris.WebApi.Modules.Indicators.Models;
 using Iris.WebApi.Modules.Indicators.Repositories;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB;
 using Iris.WebApi.Shared.Infra.Http.Clients.BCB.Models;
 
-namespace Iris.WebApi.Modules.Indicators.Features.Ingestion;
+namespace Iris.WebApi.Modules.Indicators.Jobs;
 
 public class IpcaIngestionJob(
     ILogger<IpcaIngestionJob> logger,

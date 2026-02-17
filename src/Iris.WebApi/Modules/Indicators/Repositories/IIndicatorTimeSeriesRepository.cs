@@ -1,5 +1,4 @@
-﻿using Iris.WebApi.Modules.Indicators.Features.Ingestion;
-using Iris.WebApi.Modules.Indicators.Models;
+﻿using Iris.WebApi.Modules.Indicators.Models;
 
 namespace Iris.WebApi.Modules.Indicators.Repositories;
 
