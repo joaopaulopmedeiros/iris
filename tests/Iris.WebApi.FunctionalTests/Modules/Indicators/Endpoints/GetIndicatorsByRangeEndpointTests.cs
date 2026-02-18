@@ -1,13 +1,14 @@
 using System.Net;
 using System.Net.Http.Json;
 
+using Iris.WebApi.FunctionalTests.Collections;
 using Iris.WebApi.FunctionalTests.Fixtures;
 using Iris.WebApi.FunctionalTests.Modules.Indicators.Seeders;
 using Iris.WebApi.Modules.Indicators.Endpoints.GetByRange;
 
 namespace Iris.WebApi.FunctionalTests.Modules.Indicators.Endpoints;
 
-[Collection(WebApiCollectionFixture.Name)]
+[Collection(WebApiCollection.Name)]
 public sealed class GetIndicatorsByRangeEndpointTests(
     WebApiTestFixture<Program> fixture)
 {
@@ -43,6 +44,21 @@ public sealed class GetIndicatorsByRangeEndpointTests(
         DateOnly to = DateOnly.FromDateTime(DateTime.Now);
 
         string url = $"/indicators?code=invalid_code&from={from:yyyy-MM-dd}&to={to:yyyy-MM-dd}";
+
+        HttpClient httpClient = fixture.HttpClient;
+
+        HttpResponseMessage response = await httpClient.GetAsync(url, TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Endpoint_ShouldReturnBadRequest_WhenToDateIsBeforeFromDate()
+    {
+        DateOnly from = DateOnly.FromDateTime(DateTime.Now);
+        DateOnly to = DateOnly.FromDateTime(DateTime.Now.AddDays(-10));
+
+        string url = $"/indicators?code=selic&from={from:yyyy-MM-dd}&to={to:yyyy-MM-dd}";
 
         HttpClient httpClient = fixture.HttpClient;
 
