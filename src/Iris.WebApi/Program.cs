@@ -9,43 +9,24 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
-if (builder.Environment.IsProduction() || builder.Environment.IsDevelopment())
-{
-    builder.Services.AddTelemetry(builder.Configuration);
-}
+builder.Services.AddSharedInfrastructure(
+    builder.Configuration,
+    includeTelemetry: !builder.Environment.IsEnvironment("Test"));
 
+builder.Services.AddIndicatorsModule();
 
 builder.Services.AddHealthChecks();
-
 builder.Services.AddOpenApi();
-
-builder.Services.AddRedis(builder.Configuration);
-
-builder.Services.AddHangfire(builder.Configuration);
-
-builder.Services.AddBCBHttpClient(builder.Configuration);
-
-builder.Services.AddIndicatorsRepositories();
-
-builder.Services.AddIndicatorsValidators();
-
-builder.Services.AddIndicatorsServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
-
+app.MapOpenApi();
+app.MapScalarApiReference();
 app.MapHealthChecks("/health");
 
 app.UseOutputCache();
-
-app.UseIndicatorsBackgroundJobs();
-
 app.UseHangfireDashboard();
+app.UseIndicatorsModule();
 
 app.MapIndicatorsEndpoints();
 

@@ -8,7 +8,7 @@ namespace Iris.WebApi.Shared.Infra.Telemetry.IoC;
 
 public static class DependencyInjector
 {
-    public static IServiceCollection AddTelemetry(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSharedTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
         string serviceName = "iris-api";
 

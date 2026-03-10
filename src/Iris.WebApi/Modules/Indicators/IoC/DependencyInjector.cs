@@ -9,27 +9,17 @@ namespace Iris.WebApi.Modules.Indicators.IoC;
 
 public static class DependencyInjector
 {
-    public static IServiceCollection AddIndicatorsRepositories(this IServiceCollection services)
+    public static IServiceCollection AddIndicatorsModule(this IServiceCollection services)
     {
         services.AddScoped<IIndicatorTimeSeriesRepository, RedisTimeSeriesRepository>();
-        return services;
-    }
-
-    public static IServiceCollection AddIndicatorsValidators(this IServiceCollection services)
-    {
         services.AddScoped<IValidator<GetIndicatorsByRangeRequest>, GetIndicatorsByRangeRequestValidator>();
-        return services;
-    }
-
-    public static IServiceCollection AddIndicatorsServices(this IServiceCollection services)
-    {
         services.AddScoped<SelicIngestionJob>();
         services.AddScoped<IpcaIngestionJob>();
 
         return services;
     }
 
-    public static IApplicationBuilder UseIndicatorsBackgroundJobs(this IApplicationBuilder app)
+    public static IApplicationBuilder UseIndicatorsModule(this IApplicationBuilder app)
     {
         using IServiceScope scope = app.ApplicationServices.CreateScope();
 

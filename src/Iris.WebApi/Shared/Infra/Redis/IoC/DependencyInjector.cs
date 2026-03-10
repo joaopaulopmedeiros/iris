@@ -4,7 +4,7 @@ namespace Iris.WebApi.Shared.Infra.Redis.IoC;
 
 public static class DependencyInjector
 {
-    public static void AddRedis(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IConnectionMultiplexer>(s =>
         {
@@ -23,5 +23,7 @@ public static class DependencyInjector
             options.Configuration = connection;
             options.InstanceName = "iris:outputcache:";
         });
+
+        return services;
     }
 }
